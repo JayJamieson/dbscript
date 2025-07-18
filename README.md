@@ -56,7 +56,47 @@ function handler() {
 For the most basic setup without a pipeline or advanced configuration can be started as follows:
 
 ```shell
-dbscript start -d localhost:3306:$PASSWORD --schema dbscript --tables events --handler myhandler.js
+dbscript start -u dbscript -H localhost -p 3306 --password password --schema dbscript --tables events --handler myhandler.js
 ```
 
 This will connect to your MySQL databases and listen for all change events on table `events` and forward them to your handler. The default sink for this is stdout, to use other sinks see **Configuration** for more details.
+
+## Development Setup
+
+### Start MySQL Database
+
+Start a MySQL 8.0 database with Docker Compose:
+
+```bash
+docker-compose up -d
+```
+
+This will create a MySQL database with:
+- Database: `dbscript`
+- User: `dbscript` / Password: `dbscript`
+- Root password: `rootpassword`
+- Pre-created tables: `events` and `user`
+
+### Insert Dummy Data
+
+To insert dummy data into the database for testing:
+
+```bash
+docker exec -i dbscript_mysql mysql -u dbscript -pdbscript dbscript < docker/mysql/scripts/insert-dummy-data.sql
+```
+
+### Connect to Database
+
+To connect to the MySQL database directly:
+
+```bash
+docker exec -it dbscript_mysql mysql -u dbscript -pdbscript dbscript
+```
+
+### Stop Database
+
+To stop the database:
+
+```bash
+docker-compose down
+```
