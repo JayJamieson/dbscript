@@ -72,6 +72,7 @@ docker-compose up -d
 ```
 
 This will create a MySQL database with:
+
 - Database: `dbscript`
 - User: `dbscript` / Password: `dbscript`
 - Root password: `rootpassword`
@@ -99,4 +100,10 @@ To stop the database:
 
 ```bash
 docker-compose down
+```
+
+### Run from source
+
+```sh
+go run main.go start -u dbscript -H localhost -p 3306 --password password --schema dbscript --tables events,user --handler myhandler.js
 ```
